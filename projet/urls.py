@@ -19,11 +19,14 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts', include('django.contrib.auth.urls')),
+    path('', include('accounts.urls')),
     path('accueil/', include('admin_argon.urls')),
-    path('', include('profils.urls')),
+    path('profils/', include('profils.urls')),
     path('produit/', include('produit.urls'),),
     path('fournisseur/', include('fournisseur.urls')),
     path('vente/', include('vente.urls')),
     path('commande_fournisseur/', include('commande_fournisseur.urls')),
+
 ]
 
