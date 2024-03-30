@@ -26,6 +26,8 @@ class LigneCommandeFournisseur(models.Model):
     etat = models.CharField(max_length=8)
 
 
+
+
     class Meta:
         managed = False
         db_table = 'ligne_commande_fournisseur'
