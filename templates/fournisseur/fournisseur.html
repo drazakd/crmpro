@@ -141,29 +141,29 @@
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
+
+                  {% for fournisseur in fournisseurs %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{fournisseur.id_fournisseur}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{fournisseur.nom}}</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{fournisseur.adresse}}</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{fournisseur.email}}</p>
                       </td>
                       <td class="align-middle text-sm">
-                        0707007560
+                        {{fournisseur.telephone}}
                       </td>
                       <td class="align-middle text-center">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
@@ -172,6 +172,9 @@
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
                 </table>
               </div>
             </div>
@@ -180,11 +183,12 @@
       </div>
 
 
+
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Commande</h6>
+              <h6>ligne Commande</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <a class="btn btn-primary  btn-sm btn-block" href="">Ajouter</a>
@@ -200,36 +204,41 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
                     </tr>
                   </thead>
+
+                  {% for ligne in ligne_fournisseur %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2">
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{ligne.id_ligne_commande_fournisseur}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="d-flex px-2">
                           <div class="align-middle">
-                            <h6 class="mb-0 text-sm">produit</h6>
+                            <h6 class="mb-0 text-sm">{{ligne.id_produit}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">quantite</p>
+                        <p class="text-sm font-weight-bold mb-0">{{ligne.quantite_commandee}}</p>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">prix</p>
+                        <p class="text-sm font-weight-bold mb-0">{{ligne.prix_unitaire}}</p>
                       </td>
                       <td class="align-middle">
-                        <p class="badge badge-sm bg-gradient-success">etat</p>
+                        <p class="badge badge-sm bg-gradient-success">{{ligne.etat}}</p>
                       </td>
                       <td class="align-middle">
                         <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
                       </td>
                     </tr>
                   </tbody>
+                  {% endfor %}
+
                 </table>
               </div>
             </div>
@@ -242,7 +251,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>ligne Commande</h6>
+              <h6>Commande</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -257,36 +266,42 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
                     </tr>
                   </thead>
+
+                  {% for commande in commandes %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2">
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{commande.id_commande_fournisseur}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="d-flex px-2">
                           <div class="align-middle">
-                            <h6 class="mb-0 text-sm">Date</h6>
+                            <h6 class="mb-0 text-sm">{{commande.date_commande}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">Gestionnaire</p>
+                        <p class="text-sm font-weight-bold mb-0">{{commande.id_gestionnaire}}</p>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">Fournisseur</p>
+                        <p class="text-sm font-weight-bold mb-0">{{commande.id_fournisseur}}</p>
                       </td>
                       <td class="align-middle">
-                        <p class="badge badge-sm bg-gradient-success">etat</p>
+                        <p class="badge badge-sm bg-gradient-success">{{commande.etat}}</p>
                       </td>
                       <td class="align-middle">
                         <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
                 </table>
               </div>
             </div>
@@ -295,8 +310,8 @@
       </div>
 
     </div>
-  </main>
-  <div class="fixed-plugin">
+</main>
+<div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="fa fa-cog py-2"> </i>
     </a>

@@ -8,6 +8,9 @@ class Fournisseur(models.Model):
     email = models.CharField(unique=True, max_length=255)
     telephone = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.nom
+
     class Meta:
         managed = False
         db_table = 'fournisseur'
@@ -22,6 +25,7 @@ class LigneCommandeFournisseur(models.Model):
     prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
     etat = models.CharField(max_length=8)
 
+
     class Meta:
         managed = False
         db_table = 'ligne_commande_fournisseur'
@@ -35,6 +39,9 @@ class CommandeFournisseur(models.Model):
     id_fournisseur = models.ForeignKey('Fournisseur', models.DO_NOTHING, db_column='id_fournisseur', blank=True, null=True)
     etat = models.CharField(max_length=8)
 
+    def __str__(self):
+        return self.etat
+
     class Meta:
         managed = False
         db_table = 'commande_fournisseur'
@@ -46,6 +53,9 @@ class Utilisateurs(models.Model):
     email = models.CharField(unique=True, max_length=255)
     mot_de_passe = models.CharField(max_length=255)
     role = models.CharField(max_length=12)
+
+    def __str__(self):
+        return self.nom
 
     class Meta:
         managed = False

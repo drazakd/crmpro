@@ -5,6 +5,9 @@ class Categorie(models.Model):
     id_categorie = models.AutoField(primary_key=True)
     nom_categorie = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.nom_categorie
+
     class Meta:
         managed = False
         db_table = 'categorie'
@@ -18,6 +21,9 @@ class Produit(models.Model):
     stock = models.IntegerField()
     id_fournisseur = models.IntegerField(blank=True, null=True)
     id_categorie = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nom
 
     class Meta:
         managed = False
