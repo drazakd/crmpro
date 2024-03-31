@@ -119,6 +119,7 @@
       </div>
     </nav>
     <!-- End Navbar -->
+
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
@@ -127,7 +128,7 @@
               <h6>Fournisseur</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-              <a class="btn btn-primary  btn-sm btn-block" href="">Ajouter</a>
+              <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_fournisseur' %}">Ajouter</a>
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
                   <thead>
@@ -166,9 +167,8 @@
                         {{fournisseur.telephone}}
                       </td>
                       <td class="align-middle text-center">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
+                        <a class="btn btn-sm btn-success" href="{% url 'modifier_fournisseur' fournisseur.id_fournisseur %}" >Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'supprimer_fournisseur' fournisseur.id_fournisseur %}" >Supprimer</a>
                       </td>
                     </tr>
                   </tbody>
@@ -191,7 +191,7 @@
               <h6>ligne Commande</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-              <a class="btn btn-primary  btn-sm btn-block" href="">Ajouter</a>
+              <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_lignecommande' %}">Ajouter</a>
               <div class="table-responsive p-0">
                 <table class="table align-items-center justify-content-center mb-0">
                   <thead>
@@ -232,8 +232,9 @@
                       <td class="align-middle">
                         <p class="badge badge-sm bg-gradient-success">{{ligne.etat}}</p>
                       </td>
-                      <td class="align-middle">
-                        <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
+                      <td class="align-middle text-center">
+                        <a class="btn btn-sm btn-success" href="{% url 'modifier_lignecommande' ligne.id_ligne_commande_fournisseur %}" >Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'supprimer_lignecommande' ligne.id_ligne_commande_fournisseur %}" >Supprimer</a>
                       </td>
                     </tr>
                   </tbody>
@@ -294,8 +295,9 @@
                       <td class="align-middle">
                         <p class="badge badge-sm bg-gradient-success">{{commande.etat}}</p>
                       </td>
-                      <td class="align-middle">
-                        <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
+                      <td class="align-middle text-center">
+                        <a class="btn btn-sm btn-success" href="{% url 'modifier_commande' commande.id_commande_fournisseur %}" >Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'supprimer_commande' commande.id_commande_fournisseur %}" >Supprimer</a>
                       </td>
                     </tr>
                   </tbody>

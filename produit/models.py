@@ -30,3 +30,15 @@ class Produit(models.Model):
         db_table = 'produit'
 
 
+
+class Fournisseur(models.Model):
+    id_fournisseur = models.AutoField(primary_key=True)
+    nom = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nom
+
+    class Meta:
+        managed = False
+        db_table = 'fournisseur'
+
