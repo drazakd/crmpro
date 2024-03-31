@@ -143,33 +143,32 @@
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
+
+                  {% for client in clients %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{client.id_client}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{client.nom}}</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{client.prenom}}</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Anyama</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{client.adresse}}</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager@email.com</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{client.email}}</p>
                       </td>
                       <td class="align-middle text-sm">
-                        0707007560
+                        {{client.telephone}}
                       </td>
                       <td class="align-middle text-center">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
@@ -178,6 +177,9 @@
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
                 </table>
               </div>
             </div>

@@ -119,6 +119,8 @@
       </div>
     </nav>
     <!-- End Navbar -->
+
+<!--  categorie produit-->
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
@@ -134,48 +136,24 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
+
+                  {% for categorie in categories %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{categorie.id_categorie}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                        <p class="text-xs font-weight-bold mb-0">{{categorie.nom_categorie}}</p>
                       </td>
                       <td class="align-middle text-center">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
@@ -184,6 +162,9 @@
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
                 </table>
               </div>
             </div>
@@ -192,6 +173,7 @@
       </div>
 
 
+<!--      produit-->
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
@@ -213,47 +195,56 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
                     </tr>
                   </thead>
+
+                  {% for produit in produits %}
+
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2">
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{produit.id_produit}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="d-flex px-2">
                           <div class="align-middle">
-                            <h6 class="mb-0 text-sm">Spotify</h6>
+                            <h6 class="mb-0 text-sm">{{produit.nom}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
+                        <p class="text-sm font-weight-bold mb-0">{{produit.prix}}</p>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">500</p>
+                        <p class="text-sm font-weight-bold mb-0">{{produit.stock}}</p>
                       </td>
                       <td class="align-middle">
-                        <p class="text-sm font-weight-bold mb-0">teste</p>
+                        <p class="text-sm font-weight-bold mb-0">{{produit.id_fournisseur}}</p>
                       </td>
                       <td class="align-middle">
-                        <p class="text-sm font-weight-bold mb-0">Fruit</p>
+                        <p class="text-sm font-weight-bold mb-0">{{produit.id_categorie}}</p>
                       </td>
                       <td class="align-middle">
                         <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
                 </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
+
+
+
+
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

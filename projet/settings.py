@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'profils',
     'produit',
     'fournisseur',
-    'commande_fournisseur',
     'accounts'
+
 ]
 
 MIDDLEWARE = [
