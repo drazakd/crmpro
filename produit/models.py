@@ -32,11 +32,8 @@ class Produit(models.Model):
     description = models.TextField(blank=True, null=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
-    id_fournisseur = models.IntegerField(blank=True, null=True)
-    id_categorie = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return self.nom
+    id_fournisseur = models.ForeignKey(Fournisseur, models.DO_NOTHING, db_column='id_fournisseur', blank=True, null=True)
+    id_categorie = models.ForeignKey(Categorie, models.DO_NOTHING, db_column='id_categorie', blank=True, null=True)
 
     class Meta:
         managed = False

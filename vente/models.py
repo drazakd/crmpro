@@ -1,20 +1,8 @@
 from django.db import models
+from produit.models import Produit
+
 
 # Create your models here.
-class Vente(models.Model):
-    id_vente = models.AutoField(primary_key=True)
-    date_vente = models.DateTimeField()
-    id = models.IntegerField(blank=True, null=True)
-    id_produit = models.IntegerField(blank=True, null=True)
-    quantite = models.IntegerField()
-    prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
-    id_client = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'vente'
-
-
 class Client(models.Model):
     id_client = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=255)
@@ -26,3 +14,19 @@ class Client(models.Model):
     class Meta:
         managed = False
         db_table = 'client'
+
+
+
+class Vente(models.Model):
+    id_vente = models.AutoField(primary_key=True)
+    date_vente = models.DateTimeField()
+    id = models.IntegerField(blank=True, null=True)
+    id_produit = models.ForeignKey(Produit, models.DO_NOTHING, db_column='id_produit', blank=True, null=True)
+    quantite = models.IntegerField()
+    prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
+    id_client = models.ForeignKey(Client, models.DO_NOTHING, db_column='id_client', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'vente'
+

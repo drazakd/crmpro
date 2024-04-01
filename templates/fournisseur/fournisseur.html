@@ -219,7 +219,7 @@
                       <td>
                         <div class="d-flex px-2">
                           <div class="align-middle">
-                            <h6 class="mb-0 text-sm">{{ligne.id_produit}}</h6>
+                            <h6 class="mb-0 text-sm">{{ligne.id_produit.nom}}</h6>
                           </div>
                         </div>
                       </td>
@@ -287,10 +287,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">{{commande.id_gestionnaire}}</p>
+                        <p class="text-sm font-weight-bold mb-0">{{commande.id_gestionnaire.nom}}</p>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">{{commande.id_fournisseur}}</p>
+                        <p class="text-sm font-weight-bold mb-0">{{commande.id_fournisseur.nom}}</p>
                       </td>
                       <td class="align-middle">
                         <p class="badge badge-sm bg-gradient-success">{{commande.etat}}</p>
