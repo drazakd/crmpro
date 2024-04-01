@@ -1,6 +1,23 @@
 from django.db import models
 
 # Create your models here.
+class Utilisateurs(models.Model):
+    nom = models.CharField(max_length=255)
+    prenom = models.CharField(max_length=255)
+    email = models.CharField(unique=True, max_length=255)
+    mot_de_passe = models.CharField(max_length=255)
+    role = models.CharField(max_length=12)
+
+    def __str__(self):
+        return self.nom
+
+    class Meta:
+        managed = False
+        db_table = 'utilisateurs'
+
+
+
+
 class Fournisseur(models.Model):
     id_fournisseur = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=255)
@@ -49,16 +66,3 @@ class CommandeFournisseur(models.Model):
         db_table = 'commande_fournisseur'
 
 
-class Utilisateurs(models.Model):
-    nom = models.CharField(max_length=255)
-    prenom = models.CharField(max_length=255)
-    email = models.CharField(unique=True, max_length=255)
-    mot_de_passe = models.CharField(max_length=255)
-    role = models.CharField(max_length=12)
-
-    def __str__(self):
-        return self.nom
-
-    class Meta:
-        managed = False
-        db_table = 'utilisateurs'

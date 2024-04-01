@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import CategorieForm, ProduitForm
-from produit.models import Categorie, Produit
+from .models import Categorie, Produit
+
+
 # Create your views here.
 def produit(request):
 
