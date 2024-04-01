@@ -156,8 +156,8 @@
                         <p class="text-xs font-weight-bold mb-0">{{categorie.nom_categorie}}</p>
                       </td>
                       <td class="align-middle text-center">
-                        <a class="btn btn-sm btn-success" href="" >Modifier</a>
-                        <a class="btn btn-sm btn-danger" href="" >Supprimer</a>
+                        <a class="btn btn-sm btn-success" href="{% url 'modifier_categorie' categorie.id_categorie %}" >Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'supprimer_categorie' categorie.id_categorie %}" >Supprimer</a>
                       </td>
                     </tr>
                   </tbody>
@@ -226,8 +226,8 @@
                         <p class="text-sm font-weight-bold mb-0">{{produit.id_categorie}}</p>
                       </td>
                       <td class="align-middle text-center">
-                        <a class="btn btn-sm btn-success" href="" >Modifier</a>
-                        <a class="btn btn-sm btn-danger" href="" >Supprimer</a>
+                        <a class="btn btn-sm btn-success" href="{% url 'modifier_produit' produit.id_produit %}" >Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'supprimer_produit' produit.id_produit %}" >Supprimer</a>
                       </td>
                     </tr>
                   </tbody>
