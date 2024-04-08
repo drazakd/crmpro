@@ -42,6 +42,7 @@ class LigneCommandeFournisseur(models.Model):
 class Utilisateurs(models.Model):
     nom = models.CharField(max_length=255)
     prenom = models.CharField(max_length=255)
+    genre = models.CharField(max_length=15)
     email = models.CharField(unique=True, max_length=255)
     mot_de_passe = models.CharField(max_length=255)
     role = models.CharField(max_length=12)
