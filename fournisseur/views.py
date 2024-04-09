@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from fournisseur.models import Fournisseur, LigneCommandeFournisseur, CommandeFournisseur
 from .forms import FournisseurForm, LigneCommandeFournisseurForm, CommandeFournisseurForm
 
 # Create your views here.
+@login_required(login_url='home')
 def fournisseur(request):
 
     fournisseurs = Fournisseur.objects.all()

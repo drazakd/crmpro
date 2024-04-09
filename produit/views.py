@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .forms import CategorieForm, ProduitForm
 from .models import Categorie, Produit
 
 
 # Create your views here.
+@login_required(login_url='home')
 def produit(request):
 
     produits = Produit.objects.all()

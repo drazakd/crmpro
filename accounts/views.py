@@ -1,6 +1,7 @@
 from datetime import datetime  # Importez datetime de manière appropriée
-from django.contrib.auth.hashers import make_password
-
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import render, redirect
@@ -8,7 +9,22 @@ from django.core.validators import validate_email
 from .models import AccountsUtilisateurs
 
 def home(request):
-    return render(request, 'accounts/sign-in.html')
+    if request.method == 'POST':
+        email = request.POST.get('email', None)
+        password = request.POST.get('password', None)
+
+        user = AccountsUtilisateurs.objects.filter(email=email).first()
+        if user:
+            if check_password(password, user.password):
+                login(request, user)
+                return redirect('dashboard')
+            else:
+                print("Mot de passe incorrect")
+        else:
+            print("Utilisateur n'existe pas")
+
+    return render(request, 'accounts/sign-in.html', {})
+
 
 def signup(request):
     error = False

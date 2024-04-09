@@ -144,6 +144,6 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.Argon2PasswordHasher',
 ]
-
+LOGIN_URL = 'home'
 #customerUser
-#AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.AccountsUtilisateurs'
