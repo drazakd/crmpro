@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'profils',
     'produit',
     'fournisseur',
-    'accounts'
+    'accounts',
+    'vente'
 
 ]
 

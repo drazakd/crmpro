@@ -32,13 +32,14 @@
       </div>
     </nav>
     <!-- End Navbar -->
+
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Client</h6>
-              <a class="btn btn-primary  btn-sm btn-block" href="">Ajouter</a>
+              <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_client' %}">Ajouter</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
 
@@ -57,7 +58,7 @@
                     </tr>
                   </thead>
 
-                  {% for client in clients %}
+                  {% for client in client %}
 
                   <tbody>
                     <tr>
@@ -105,7 +106,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Vente</h6> <a class="btn btn-primary  btn-sm btn-block" href="">Ajouter</a>
+              <h6>Vente</h6> <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_vente' %}">Effectuer</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
 
@@ -114,43 +115,61 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gerant</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Produit</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Quantite Commandée</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prix</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ETAT</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
                     </tr>
                   </thead>
+
+                  {% for vente in vente %}
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2">
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">1</h6>
+                            <h6 class="mb-0 text-sm">{{vente.id_vente}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="d-flex px-2">
                           <div class="align-middle">
-                            <h6 class="mb-0 text-sm">produit</h6>
+                            <h6 class="mb-0 text-sm">{{vente.id_client.nom}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">quantite</p>
+                        <div class="d-flex px-2">
+                          <div class="align-middle">
+                            <h6 class="mb-0 text-sm">{{vente.id_gerant.nom}}</h6>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">prix</p>
+                        <div class="d-flex px-2">
+                          <div class="align-middle">
+                            <h6 class="mb-0 text-sm">{{vente.id_produit.nom}}</h6>
+                          </div>
+                        </div>
                       </td>
-                      <td class="align-middle">
-                        <p class="badge badge-sm bg-gradient-success">etat</p>
+                      <td>
+                        <p class="text-sm font-weight-bold mb-0">{{vente.quantite}}</p>
+                      </td>
+                      <td>
+                        <p class="text-sm font-weight-bold mb-0">{{vente.prix_unitaire}}</p>
                       </td>
                       <td class="align-middle">
                         <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
                       </td>
                     </tr>
                   </tbody>
+
+                  {% endfor %}
+
+
                 </table>
               </div>
             </div>

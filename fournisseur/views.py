@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from fournisseur.models import Fournisseur, LigneCommandeFournisseur, CommandeFournisseur
 from .forms import FournisseurForm, LigneCommandeFournisseurForm, CommandeFournisseurForm
 
 # Create your views here.
-@login_required(login_url='home')
+def user_in_groups(user):
+    """Vérifie si l'utilisateur appartient aux groupes 'gestionnaire' ou 'admin'."""
+    return user.groups.filter(name__in=['gestionnaire', 'admin']).exists()
+
+@login_required
+@user_passes_test(user_in_groups)
 def fournisseur(request):
 
     fournisseurs = Fournisseur.objects.all()
@@ -13,7 +18,8 @@ def fournisseur(request):
     context = {'fournisseurs':fournisseurs, 'ligne_fournisseur':ligne_fournisseur, 'commandes':commandes}
     return render(request, 'fournisseur/fournisseur.html',context)
 
-
+@login_required
+@user_passes_test(user_in_groups)
 def ajouter_fournisseur(request):
     form = FournisseurForm()
     if request.method == 'POST':
@@ -25,7 +31,8 @@ def ajouter_fournisseur(request):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_fournisseur.html', context)
 
-
+@login_required
+@user_passes_test(user_in_groups)
 def modifier_fournisseur(request,pk):
     fournisseur = Fournisseur.objects.get(id_fournisseur=pk)
     form = FournisseurForm(instance=fournisseur)
@@ -39,6 +46,8 @@ def modifier_fournisseur(request,pk):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_fournisseur.html', context)
 
+@login_required
+@user_passes_test(user_in_groups)
 def supprimer_fournisseur(request,pk):
     fournisseur = Fournisseur.objects.get(id_fournisseur=pk)
     if request.method == 'POST':
@@ -49,7 +58,8 @@ def supprimer_fournisseur(request,pk):
     return render(request, 'fournisseur/supprimer_fournisseur.html', context)
 
 
-
+@login_required
+@user_passes_test(user_in_groups)
 def ajouter_lignecommande(request):
     form = LigneCommandeFournisseurForm()
     if request.method == 'POST':
@@ -61,6 +71,9 @@ def ajouter_lignecommande(request):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_lignecommande.html', context)
 
+
+@login_required
+@user_passes_test(user_in_groups)
 def modifier_lignecommande(request,pk):
     lignecommande = LigneCommandeFournisseur.objects.get(id_ligne_commande_fournisseur=pk)
     form = LigneCommandeFournisseurForm(instance=lignecommande)
@@ -74,6 +87,8 @@ def modifier_lignecommande(request,pk):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_fournisseur.html', context)
 
+@login_required
+@user_passes_test(user_in_groups)
 def supprimer_lignecommande(request,pk):
     lignecommande = LigneCommandeFournisseur.objects.get(id_ligne_commande_fournisseur=pk)
     if request.method == 'POST':
@@ -85,7 +100,8 @@ def supprimer_lignecommande(request,pk):
 
 
 
-
+@login_required
+@user_passes_test(user_in_groups)
 def ajouter_commande(request):
     form = CommandeFournisseurForm()
     if request.method == 'POST':
@@ -97,6 +113,8 @@ def ajouter_commande(request):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_commande.html', context)
 
+@login_required
+@user_passes_test(user_in_groups)
 def modifier_commande(request,pk):
     commande = CommandeFournisseur.objects.get(id_commande_fournisseur=pk)
     form = CommandeFournisseurForm(instance=commande)
@@ -110,6 +128,9 @@ def modifier_commande(request,pk):
     context = {'form': form}
     return render(request, 'fournisseur/ajouter_fournisseur.html', context)
 
+
+@login_required
+@user_passes_test(user_in_groups)
 def supprimer_commande(request,pk):
     commande = CommandeFournisseur.objects.get(id_commande_fournisseur=pk)
     if request.method == 'POST':

@@ -1,0 +1,15 @@
+/* Styles de base pour les formulaires */
+form {
+    margin: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: bold;
+}
