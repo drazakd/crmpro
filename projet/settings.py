@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'produit',
     'fournisseur',
     'accounts',
-    'vente'
+    'vente',
+    'chargement',
+    'django_plotly_dash'
 
 ]
 

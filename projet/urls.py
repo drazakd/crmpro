@@ -26,6 +26,8 @@ urlpatterns = [
     path('produit/', include('produit.urls'),),
     path('fournisseur/', include('fournisseur.urls')),
     path('vente/', include('vente.urls')),
+    path('chargement/', include('chargement.urls')),
+    path('dash/', include('django_plotly_dash.urls')),
 
 ]
 

@@ -41,6 +41,15 @@
             <span class="nav-link-text ms-1">Fournisseur</span>
           </a>
         </li>
+
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link " href="">-->
+<!--            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">-->
+<!--              <i class=" fas fa-database text-success text-sm opacity-10"></i>-->
+<!--            </div>-->
+<!--            <span class="nav-link-text ms-1">Charger base de donnée</span>-->
+<!--          </a>-->
+<!--        </li>-->
         {% endif %}
 
         {% if request.user.role == 'gerant' or request.user.role == 'admin' %}
@@ -67,14 +76,6 @@
         </li>
 
           {% if request.user.role == 'gestionnaire' or request.user.role == 'admin' %}
-        <li class="nav-item">
-          <a class="nav-link " href="{% url 'home' %}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
         <li class="nav-item">
           <a class="nav-link " href="{% url 'signup' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
