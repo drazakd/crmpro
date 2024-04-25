@@ -1,230 +1,114 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
-    {% include 'partiel/navbar.html' %}>
-    <!-- End Navbar -->
+    {% include 'partiel/navbar.html' %}
+    <!-- Fin Navbar -->
 
     <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
+        <!-- Table des ventes -->
+        <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Client</h6>
-              <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_client' %}">Ajouter</a>
+                <h6>Vente</h6> <a class="btn btn-primary btn-sm btn-block" href="{% url 'ajouter_vente' %}">Effectuer</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center justify-content-center mb-0">
+                        <thead>
+                            <tr>
+                                <!-- Titres de colonnes -->
+                                <th>ID</th>
+                                <th>Client</th>
+                                <th>Gerant</th>
+                                <th>Produit</th>
+                                <th>Quantite Commandée</th>
+                                <th>Prix</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Afficher les ventes de la page actuelle -->
+                            {% for vente in vente_page %}
+                            <tr>
+                                <td>{{ vente.id_vente }}</td>
+                                <td>{{ vente.id_client.nom }}</td>
+                                <td>{{ vente.id_gerant.nom }}</td>
+                                <td>{{ vente.id_produit.nom }}</td>
+                                <td>{{ vente.quantite }}</td>
+                                <td>{{ vente.prix_unitaire }}</td>
+                                <td>modif | Sup</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prenom</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Adresse</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">email</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Telephone</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-
-                  {% for client in client %}
-
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{client.id_client}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{client.nom}}</p>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{client.prenom}}</p>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{client.adresse}}</p>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{client.email}}</p>
-                      </td>
-                      <td class="align-middle text-sm">
-                        {{client.telephone}}
-                      </td>
-                      <td class="align-middle text-center">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  {% endfor %}
-
-                </table>
-              </div>
+                    <!-- Pagination des ventes -->
+                    <div>
+                        {% if vente_page.has_previous %}
+                        <a href="?vente_page={{ vente_page.previous_page_number }}">Précédent</a>
+                        {% endif %}
+                        <span>Page {{ vente_page.number }} sur {{ vente_page.paginator.num_pages }}</span>
+                        {% if vente_page.has_next %}
+                        <a href="?vente_page={{ vente_page.next_page_number }}">Suivant</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
+        <!-- Répétez la même chose pour la table des clients -->
 
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
+        <!-- Table des clients -->
+        <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Vente</h6> <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ajouter_vente' %}">Effectuer</a>
+                <h6>Client</h6> <a class="btn btn-primary btn-sm btn-block" href="{% url 'ajouter_client' %}">Ajouter</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <!-- Titres de colonnes -->
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Adresse</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Afficher les clients de la page actuelle -->
+                            {% for client in client_page %}
+                            <tr>
+                                <td>{{ client.id_client }}</td>
+                                <td>{{ client.nom }}</td>
+                                <td>{{ client.prenom }}</td>
+                                <td>{{ client.adresse }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.telephone }}</td>
+                                <td>modif | Sup</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
-              <div class="table-responsive p-0">
-                <table class="table align-items-center justify-content-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gerant</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Produit</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Quantite Commandée</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prix</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
-                    </tr>
-                  </thead>
-
-                  {% for vente in vente %}
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">{{vente.id_vente}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div class="align-middle">
-                            <h6 class="mb-0 text-sm">{{vente.id_client.nom}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div class="align-middle">
-                            <h6 class="mb-0 text-sm">{{vente.id_gerant.nom}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div class="align-middle">
-                            <h6 class="mb-0 text-sm">{{vente.id_produit.nom}}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">{{vente.quantite}}</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">{{vente.prix_unitaire}}</p>
-                      </td>
-                      <td class="align-middle">
-                        <p class="text-sm font-weight-bold text-center mb-0">modif | Sup</p>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  {% endfor %}
-
-
-                </table>
-              </div>
+                    <!-- Pagination des clients -->
+                    <div>
+                        {% if client_page.has_previous %}
+                        <a href="?client_page={{ client_page.previous_page_number }}">Précédent</a>
+                        {% endif %}
+                        <span>Page {{ client_page.number }} sur {{ client_page.paginator.num_pages }}</span>
+                        {% if client_page.has_next %}
+                        <a href="?client_page={{ client_page.next_page_number }}">Suivant</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-
 
     </div>
-  </main>
-  <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="fa fa-cog py-2"> </i>
-    </a>
-    <div class="card shadow-lg">
-      <div class="card-header pb-0 pt-3 ">
-        <div class="float-start">
-          <h5 class="mt-3 mb-0">Argon Configurator</h5>
-          <p>See our dashboard options.</p>
-        </div>
-        <div class="float-end mt-4">
-          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <i class="fa fa-close"></i>
-          </button>
-        </div>
-        <!-- End Toggle Button -->
-      </div>
-      <hr class="horizontal dark my-1">
-      <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-          </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between 2 different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="d-flex my-3">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <div class="mt-2 mb-5 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
-        <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Thank you for sharing!</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
+</main>
 {% endblock %}

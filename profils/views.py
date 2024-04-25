@@ -35,6 +35,30 @@ def dashboard(request):
         .order_by('-total_depsense')  # Trier par montant total dépensé (décroissant)
         [:5]  # Obtenir les cinq meilleurs clients
     )
+    # Obtenir les années disponibles pour la sélection
+    annees_disponibles = Vente.objects.dates('date_vente', 'year')
+    annees_disponibles = [date.year for date in annees_disponibles]
+
+    # Obtenir les années sélectionnées par l'utilisateur
+    annees_selectionnees = request.GET.getlist('annees', annees_disponibles)
+
+    # Obtenir les ventes par mois pour les années sélectionnées
+    ventes_par_mois = (
+        Vente.objects.filter(date_vente__year__in=annees_selectionnees)
+        .values('date_vente__year', 'date_vente__month')
+        .annotate(total_ventes=Sum('quantite'))
+        .order_by('date_vente__year', 'date_vente__month')
+    )
+
+    # Préparer les données pour le graphique
+    data = {}
+    for vente in ventes_par_mois:
+        annee = vente['date_vente__year']
+        mois = vente['date_vente__month']
+        total = vente['total_ventes']
+        if annee not in data:
+            data[annee] = [0] * 12  # Initialiser une liste de 12 mois pour l'année
+        data[annee][mois - 1] = total  # Remplir les ventes pour le mois spécifique
 
     context = {
         'nombre_produits':nombre_produits,
@@ -43,6 +67,9 @@ def dashboard(request):
         'chiffre_affaires':chiffre_affaires,
         'top_5_produits': top_5_produits,
         'top_5_clients': top_5_clients,
+        # Ajouter les étiquettes et les données au contexte
+        'annees_disponibles': annees_disponibles,
+        'data': data,
     }
     return render(request, 'profils/dashboard.html', context)
 

@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Vente, Client
@@ -11,10 +12,29 @@ def user_in_groups(user):
 @login_required
 @user_passes_test(user_in_groups)
 def vente(request):
+    # Obtenir toutes les ventes
     ventes = Vente.objects.all()
+    # Obtenir tous les clients
     clients = Client.objects.all()
-    context = {'vente': ventes, 'client': clients}
+
+    # Configurer le paginator
+    vente_paginator = Paginator(ventes, 10)  # Limiter à 10 ventes par page
+    client_paginator = Paginator(clients, 10)  # Limiter à 10 clients par page
+
+    # Obtenir le numéro de page à partir de la requête
+    vente_page_number = request.GET.get('vente_page', 1)
+    client_page_number = request.GET.get('client_page', 1)
+
+    # Obtenir les ventes et clients de la page actuelle
+    vente_page = vente_paginator.get_page(vente_page_number)
+    client_page = client_paginator.get_page(client_page_number)
+
+    context = {
+        'vente_page': vente_page,
+        'client_page': client_page,
+    }
     return render(request, 'vente/vente.html', context)
+
 
 
 @login_required
