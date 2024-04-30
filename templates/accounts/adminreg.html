@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 </head>
+
 <body class="bg-primary">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
 
@@ -49,7 +50,7 @@
 
                   {% endif %}
 
-                  <form role="form" action="{% url 'signup' %}" method="post">
+                  <form role="form" action="{% url 'adminreg' %}" method="post">
                     {% csrf_token %}
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="Nom" aria-label="Nom" name="nom" required>

@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum, F
 from django.contrib.auth.decorators import login_required
 from produit.models import Produit
 from vente.forms import Client
 from vente.models import Vente
+from accounts.models import AccountsUtilisateurs
 
 
 # Create your views here.
@@ -75,4 +77,67 @@ def dashboard(request):
 
 @login_required(login_url='home')
 def profile(request):
-    return render(request, 'profils/profile.html')
+    gerants = AccountsUtilisateurs.objects.filter(role ='gerant')
+    gestionnaire = AccountsUtilisateurs.objects.filter(role = "gestionnaire")
+    admin = AccountsUtilisateurs.objects.filter(role= "admin")
+
+    # Configurer la pagination
+    admin_paginator = Paginator(admin, 10)  # Limiter à 10 produits par page
+    gestionnaire_paginator = Paginator(gestionnaire, 10)  # Limiter à 10 catégories par page
+    gerants_paginator = Paginator(gerants, 10)  # Limiter à 10 catégories par page
+
+    # Obtenir le numéro de page de la requête pour les produits et les catégories
+    admin_page_number = request.GET.get('admin_paginator', 1)
+    gestionnaire_page_number = request.GET.get('gestionnaire_paginator', 1)
+    gerants_page_number = request.GET.get('gerants_paginator', 1)
+
+    # Obtenir les produits et catégories de la page actuelle
+    admin_page = admin_paginator.get_page(admin_page_number)
+    gestionnaire_page = gestionnaire_paginator.get_page(gestionnaire_page_number)
+    gerants_page = gerants_paginator.get_page(gerants_page_number)
+
+    # Passez les objets paginés au template
+    context = {
+        'admin_page': admin_page,
+        'gestionnaire_page': gestionnaire_page,
+        'gerants_page': gerants_page,
+
+    }
+    return render(request, 'profils/profile.html', context)
+
+
+@login_required
+def desactiver_utilisateur(request, pk):
+    # Récupérez l'utilisateur à désactiver
+    utilisateur = AccountsUtilisateurs.objects.get(id=pk)
+    # Désactivez l'utilisateur en définissant is_active à False
+    utilisateur.is_active = False
+    # Sauvegardez les modifications
+    utilisateur.save()
+    # Redirigez vers une autre vue après la désactivation
+    # Par exemple, vous pourriez rediriger vers la vue profile
+    return redirect('profile')
+
+
+@login_required
+def activer_utilisateur(request, pk):
+    # Récupérez l'utilisateur à désactiver
+    utilisateur = AccountsUtilisateurs.objects.get(id=pk)
+    # Désactivez l'utilisateur en définissant is_active à False
+    utilisateur.is_active = True
+    # Sauvegardez les modifications
+    utilisateur.save()
+    # Redirigez vers une autre vue après la désactivation
+    # Par exemple, vous pourriez rediriger vers la vue profile
+    return redirect('profile')
+
+# @login_required
+# @user_passes_test(user_in_groups)
+# def supprimer_profils(request,pk):
+#     profile = AccountsUtilisateurs.objects.get(id=pk)
+#     if request.method == 'POST':
+#         profile.delete()
+#         return redirect('produit')
+#
+#     context = {'item': profile}
+#     return render(request, 'profils/supprimer_profils.html', context)

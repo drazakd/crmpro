@@ -16,27 +16,32 @@ def user_in_groups(user):
 
 
 def home(request):
+    error_message = ""
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
         error_message = None
 
         user = AccountsUtilisateurs.objects.filter(email=email).first()
+
+
         if user:
-            if check_password(password, user.password):
-                login(request, user)
-                return redirect('dashboard')
+            if user.is_active:
+                if check_password(password, user.password):
+                    login(request, user)
+                    return redirect('dashboard')
+                else:
+                    error_message = "Mot de passe incorrect"
             else:
-                error_message = "Mot de passe incorrect"
+                error_message = "votre compte est inactif"
         else:
-            error_message = "Utilisateur n'existe pas"
+            error_message = "Compte introuvable"
 
         # Affichez le message d'erreur (le cas échéant)
-        if error_message:
-            context = {'error_message': error_message}
-            return render(request, 'accounts/sign-in.html', context)
 
-    return render(request, 'accounts/sign-in.html', {})
+    context = {'error_message': error_message}
+
+    return render(request, 'accounts/sign-in.html', context)
 
 
 @login_required
@@ -105,7 +110,7 @@ def signup(request):
 
 
 
-def adminsignup(request):
+def adminreg(request):
     error = False
     message = ""
     if request.method == 'POST':
@@ -130,7 +135,6 @@ def adminsignup(request):
             error = True
             message = f"L'e-mail {email} ou le nom d'utilisateur {username} existe déjà !"
 
-        # Enregistrement dans la base de données
         if not error:
             hashed_password = make_password(password)
             utilisateur = AccountsUtilisateurs.objects.create(
@@ -162,10 +166,10 @@ def adminsignup(request):
                 utilisateur.groups.add(admin_group)
 
             utilisateur.save()
-            return redirect('adminsignup')  # Redirige vers une autre vue après l'inscription
+            return redirect('home')  # Redirige vers une autre vue après l'inscription
 
     context = {'error': error, 'message': message}
-    return render(request, 'accounts/adminsignup.html', context)
+    return render(request, 'accounts/adminreg.html', context)
 
 def logout_view(request):
     logout(request)

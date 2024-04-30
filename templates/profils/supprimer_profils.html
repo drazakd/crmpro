@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'partiel/navbar.html' %}>
+    <!-- End Navbar -->
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-body">
+                <p>Voulez-vous supprimer cette commande?</p>
+                <form action="{% url 'supprimer_produit' item.id_produit %}" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-primary" href="{% url 'produit' %}">Annuler</a>
+                    <input class="btn btn-danger" type="submit" name="Confirme" value="Confirmer">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

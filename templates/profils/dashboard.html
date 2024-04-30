@@ -178,7 +178,7 @@
             <div class="card-body">
               <ul>
                 {% for produit in top_5_produits %}
-                <li>{{ produit.id_produit__nom }} : {{ produit.total_quantite }} unités vendues</li>
+                <li> {{ forloop.counter }} {{ produit.id_produit__nom }} : {{ produit.total_quantite }} unités vendues</li>
                 {% endfor %}
               </ul>
             </div>
@@ -193,7 +193,7 @@
 
               <ul>
                 {% for client in top_5_clients %}
-                <li>{{ client.id_client__nom }} : {{ client.total_depsense }} dépenses</li>
+                <li> {{ forloop.counter }} {{ client.id_client__nom }} : {{ client.total_depsense }} dépenses</li>
                 {% endfor %}
               </ul>
             </div>
