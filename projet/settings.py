@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'accounts',
     'vente',
     'chargement',
-    'django_plotly_dash'
+    'django_plotly_dash',
+    'prediction'
 
 ]
 
