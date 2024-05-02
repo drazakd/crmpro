@@ -1,22 +1,17 @@
-from django.http import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from produit.models import Produit
 from vente.models import Client, Vente
-from fournisseur.models import Categorie  # Remplacez les noms des modèles si nécessaire
+from fournisseur.models import Categorie
 import tabula
 import pandas as pd
 import numpy as np
-
-# Vue pour importer les ventes à partir d'un fichier PDF
-from django.http import request
-
 
 
 # Vue pour importer les ventes à partir d'un fichier PDF
 def import_ventes_pdf(request):
     if request.method == 'POST':
-        # Vérifiez si un fichier a été soumis
+        # Vérifier si un fichier a été soumis
         if 'fichier' not in request.FILES:
             messages.error(request, 'Aucun fichier sélectionné.')
             return redirect('charger')
@@ -39,17 +34,20 @@ def import_ventes_pdf(request):
         # Renommer les colonnes selon votre PDF
         df_concat.columns = ["id", "Name", "Gender", "Produit", "Type", "Prix", "Date"]
 
-        # Remplacer les valeurs NaN par des chaînes vides
-        df_concat.replace({np.nan: ""}, inplace=True)
+        # Nettoyer les données : remplacer les valeurs NaN et les chaînes vides
+        df_concat.replace({np.nan: "", "": "0.0"}, inplace=True)
+
+        # Convertir les colonnes de prix en float
+        df_concat['Prix'] = df_concat['Prix'].str.replace(',', '.').str.strip()
+        df_concat['Prix'] = pd.to_numeric(df_concat['Prix'], errors='coerce')
+
+        # Remplacer les valeurs nan dans Prix par une valeur par défaut
+        df_concat['Prix'].fillna(0.0, inplace=True)
 
         # Insérer les données dans les tables de base de données
         for index, row in df_concat.iterrows():
-            # Obtenir la catégorie (vérifiez si elle existe)
-            try:
-                categorie = Categorie.objects.get(nom_categorie=row["Type"])
-            except Categorie.DoesNotExist:
-                messages.error(request, f"La catégorie '{row['Type']}' n'existe pas.")
-                continue  # Passer à l'itération suivante du DataFrame
+            # Vérifier si la catégorie existe, sinon la créer
+            categorie, created = Categorie.objects.get_or_create(nom_categorie=row["Type"])
 
             # Obtenir ou créer le produit
             produit, created = Produit.objects.get_or_create(
@@ -64,23 +62,7 @@ def import_ventes_pdf(request):
             )
 
             # Obtenir ou créer le client
-            # Commencez par vérifier si un client avec l'email existe déjà
-            email = row.get("email", "")
-            if not email:
-                email = f"{row['Name'].replace(' ', '_').lower()}_{index}@vide.com"
-            else:
-                base_email, domain = email.split("@")
-                counter = 0
-                # Boucle pour trouver un email unique
-                while True:
-                    try:
-                        client = Client.objects.get(email=email)
-                        counter += 1
-                        email = f"{base_email}{counter}@{domain}"
-                    except Client.DoesNotExist:
-                        break
-
-            # Créer ou récupérer le client
+            email = f"{row['Name'].replace(' ', '_').lower()}_{index}@vide.com"
             client, created = Client.objects.get_or_create(
                 nom=row["Name"],
                 defaults={
@@ -92,17 +74,20 @@ def import_ventes_pdf(request):
             )
 
             # Créer la vente
-            Vente.objects.create(
-                date_vente=row["Date"],
-                id_produit=produit,
-                quantite=1,  # Ajustez la quantité si nécessaire
-                prix_unitaire=row["Prix"],
-                id_client=client,
-            )
+            try:
+                Vente.objects.create(
+                    date_vente=row["Date"],
+                    id_produit=produit,
+                    quantite=1,  # Ajustez la quantité si nécessaire
+                    prix_unitaire=row["Prix"],
+                    id_client=client,
+                )
+            except Exception as e:
+                messages.error(request, f"Erreur lors de la création de la vente : {str(e)}")
+                continue
 
         messages.success(request, "Importation réussie des données des ventes du PDF")
-        return redirect('produit')  # Redirigez vers votre vue appropriée
+        return redirect('produit')
 
     # Si la méthode n'est pas POST, affichez le formulaire de téléchargement
     return render(request, 'charger/charger.html')
-
