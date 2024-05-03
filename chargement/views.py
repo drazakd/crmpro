@@ -1,11 +1,18 @@
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import csv
+
 from produit.models import Produit
 from vente.models import Client, Vente
 from fournisseur.models import Categorie
 import tabula
 import pandas as pd
 import numpy as np
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from vente.models import Vente
 
 
 # Vue pour importer les ventes à partir d'un fichier PDF
@@ -91,3 +98,42 @@ def import_ventes_pdf(request):
 
     # Si la méthode n'est pas POST, affichez le formulaire de téléchargement
     return render(request, 'charger/charger.html')
+
+
+
+def exporter_csv(request):
+    # Créez une réponse HTTP avec le type de contenu CSV
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="ventes.csv"'
+
+    # Créez un writer CSV
+    writer = csv.writer(response)
+
+    # Écrivez l'en-tête CSV (les noms de colonnes)
+    writer.writerow(['ID', 'Date de vente', 'Produit', 'Prix unitaire', 'Quantité', 'Client'])
+
+    # Récupérez toutes les ventes de la table
+    ventes = Vente.objects.all()
+
+    # Écrivez chaque vente dans le CSV
+    for vente in ventes:
+        try:
+            # Assurez-vous que l'accès aux relations ne déclenche pas d'exception
+            produit_nom = vente.id_produit.nom if vente.id_produit else 'Produit manquant'
+            client_nom = vente.id_client.nom if vente.id_client else 'Client manquant'
+
+            writer.writerow([
+                vente.id_vente,
+                vente.date_vente,
+                produit_nom,
+                vente.prix_unitaire,
+                vente.quantite,
+                client_nom
+            ])
+        except AttributeError as e:
+            # Gérez l'exception ici (afficher un message, passer à la vente suivante, etc.)
+            continue
+
+    return response
+
+
