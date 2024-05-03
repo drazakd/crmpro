@@ -60,6 +60,15 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h6>Produit</h6>
+                        <div>
+                            <!-- Liens pour choisir le tri des produits -->
+                            <a href="?sort_by=nom&order=asc" class="btn btn-sm btn-outline-primary">Trier par nom (A-Z)</a>
+                            <a href="?sort_by=nom&order=desc" class="btn btn-sm btn-outline-primary">Trier par nom (Z-A)</a>
+                            <a href="?sort_by=prix&order=asc" class="btn btn-sm btn-outline-primary">Trier par prix (croissant)</a>
+                            <a href="?sort_by=prix&order=desc" class="btn btn-sm btn-outline-primary">Trier par prix (décroissant)</a>
+                            <a href="?sort_by=date_added&order=asc" class="btn btn-sm btn-outline-primary">Trier par date d'ajout (plus ancien)</a>
+                            <a href="?sort_by=date_added&order=desc" class="btn btn-sm btn-outline-primary">Trier par date d'ajout (plus récent)</a>
+                        </div>
                         <a class="btn btn-primary btn-sm btn-block" href="{% url 'ajouter_produit' %}">Ajouter</a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">

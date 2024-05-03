@@ -69,7 +69,19 @@
         <!-- Table des ventes -->
         <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Vente</h6> <a class="btn btn-primary btn-sm btn-block" href="{% url 'ajouter_vente' %}">Effectuer</a>
+                <h6>Vente</h6>
+                <div>
+                    <!-- Liens pour choisir le tri des ventes -->
+                    <a href="?sort_by=date_vente&order=asc" class="btn btn-sm btn-outline-primary">Trier par date (croissant)</a>
+                    <a href="?sort_by=date_vente&order=desc" class="btn btn-sm btn-outline-primary">Trier par date (décroissant)</a>
+                    <a href="?sort_by=id_client&order=asc" class="btn btn-sm btn-outline-primary">Trier par client (croissant)</a>
+                    <a href="?sort_by=id_client&order=desc" class="btn btn-sm btn-outline-primary">Trier par client (décroissant)</a>
+                    <a href="?sort_by=id_produit&order=asc" class="btn btn-sm btn-outline-primary">Trier par produit (croissant)</a>
+                    <a href="?sort_by=id_produit&order=desc" class="btn btn-sm btn-outline-primary">Trier par produit (décroissant)</a>
+                    <a href="?sort_by=prix_unitaire&order=asc" class="btn btn-sm btn-outline-primary">Trier par prix unitaire (croissant)</a>
+                    <a href="?sort_by=prix_unitaire&order=desc" class="btn btn-sm btn-outline-primary">Trier par prix unitaire (décroissant)</a>
+                </div>
+                <a class="btn btn-primary btn-sm btn-block" href="{% url 'ajouter_vente' %}">Effectuer</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
@@ -77,12 +89,14 @@
                         <thead>
                             <tr>
                                 <!-- Titres de colonnes -->
-                                <th>ID</th>
-                                <th>Client</th>
+                                <th class="align-middle text-center">ID</th>
+                                <th class="align-middle text-center">Client</th>
 <!--                                <th>Gerant</th>-->
-                                <th>Produit</th>
-                                <th>Quantite Commandée</th>
-                                <th>Prix</th>
+                                <th class="align-middle text-center">Produit</th>
+                                <th class="align-middle text-center">Quantite</th>
+                                <th class="align-middle text-center">Prix</th>
+                                <th class="align-middle text-center">Montant total</th>
+                                <th class="align-middle text-center">Date</th>
                                 {% if request.user.role == 'admin' %}
                                 <th class="align-middle text-center">Action</th>
                                 {% endif %}
@@ -92,12 +106,14 @@
                             <!-- Afficher les ventes de la page actuelle -->
                             {% for vente in vente_page %}
                             <tr>
-                                <td>{{ vente.id_vente }}</td>
-                                <td>{{ vente.id_client.nom }}</td>
+                                <td class="align-middle text-center">{{ vente.id_vente }}</td>
+                                <td class="align-middle text-center">{{ vente.id_client.nom }}</td>
 
-                                <td>{{ vente.id_produit.nom }}</td>
-                                <td>{{ vente.quantite }}</td>
-                                <td>{{ vente.prix_unitaire }}</td>
+                                <td class="align-middle text-center">{{ vente.id_produit.nom }}</td>
+                                <td class="align-middle text-center">{{ vente.quantite }}</td>
+                                <td class="align-middle text-center">{{ vente.prix_unitaire }}</td>
+                                <td class="align-middle text-center">{{ vente.montant_total }}</td>
+                                <td class="align-middle text-center">{{ vente.date_vente }}</td>
                                 <td class="align-middle text-center">
                                     {% if request.user.role == 'admin' %}
                                     <a class="btn btn-sm btn-success" href="{% url 'modifier_vente' vente.id_vente %}">Modifier</a>

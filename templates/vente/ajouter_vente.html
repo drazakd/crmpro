@@ -8,14 +8,48 @@
     <!-- End Navbar -->
 
     <div class="container-fluid py-4">
+
           <div class="row">
             <div class="col-12">
               <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <form action="" method="POST">
-                        {% csrf_token %} <!--crypter les informations pour que ca reste codé -->
-                        {{form.as_div}}
-                        <input type="submit" name = "Envoyer" value="Envoyer">
+                    <!-- Afficher les messages -->
+                    {% if messages %}
+                        <div class="alert-container">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Rendre le formulaire -->
+                        <div class="mb-3">
+                            {{ form.id_produit.label_tag }}
+                            {{ form.id_produit }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.quantite.label_tag }}
+                            {{ form.quantite }}
+                        </div>
+
+
+
+                        <div class="mb-3">
+                            {{ form.id_client.label_tag }}
+                            {{ form.id_client }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.date_vente.label_tag }}
+                            {{ form.date_vente }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Soumettre</button>
                     </form>
                 </div>
             </div>

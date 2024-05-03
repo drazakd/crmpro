@@ -11,15 +11,30 @@ def user_in_groups(user):
 @login_required
 @user_passes_test(user_in_groups)
 def produit(request):
-    # Obtenir tous les produits et catégories
-    produits = Produit.objects.all()
+    # Obtenir les choix de tri de l'utilisateur
+    sort_by = request.GET.get('sort_by', 'id_produit')  # Par défaut, trier par id_produit
+    order = request.GET.get('order', 'desc')  # Par défaut, ordre décroissant
+
+    # Vérifiez que le tri est soit par id_produit (ordre d'ajout), soit par nom, soit par prix
+    if sort_by not in ['id_produit', 'nom', 'prix']:
+        sort_by = 'id_produit'  # Valeur par défaut
+
+    # Déterminer l'ordre de tri basé sur les choix de l'utilisateur
+    if order == 'asc':
+        order_by = sort_by
+    else:
+        order_by = f'-{sort_by}'
+
+    # Obtenir tous les produits triés selon les préférences de l'utilisateur
+    produits = Produit.objects.all().order_by(order_by)
+    # Obtenir toutes les catégories
     categories = Categorie.objects.all()
 
-    # Configurer la pagination
+    # Configurer la pagination pour les produits et les catégories
     produit_paginator = Paginator(produits, 10)  # Limiter à 10 produits par page
     categorie_paginator = Paginator(categories, 10)  # Limiter à 10 catégories par page
 
-    # Obtenir le numéro de page de la requête pour les produits et les catégories
+    # Obtenir les numéros de page de la requête pour les produits et les catégories
     produit_page_number = request.GET.get('produit_page', 1)
     categorie_page_number = request.GET.get('categorie_page', 1)
 
@@ -27,10 +42,12 @@ def produit(request):
     produit_page = produit_paginator.get_page(produit_page_number)
     categorie_page = categorie_paginator.get_page(categorie_page_number)
 
-    # Passez les objets paginés au template
+    # Passez les choix de tri à la vue pour les afficher dans le template
     context = {
         'produit_page': produit_page,
         'categorie_page': categorie_page,
+        'sort_by': sort_by,
+        'order': order,
     }
 
     return render(request, 'produit/produit.html', context)
@@ -85,12 +102,28 @@ def ajouter_produit(request):
     form = ProduitForm()
     if request.method == 'POST':
         form = ProduitForm(request.POST)
+
+        # Vérifiez si le produit existe déjà
         if form.is_valid():
-            form.save()
+            nom_produit = form.cleaned_data.get('nom')
+            quantite_ajoutee = form.cleaned_data.get('stock')
+
+            try:
+                # Vérifiez s'il existe un produit avec le même nom
+                produit = Produit.objects.get(nom=nom_produit)
+
+                # Si le produit existe, ajoutez la quantité au stock existant
+                produit.stock += quantite_ajoutee
+                produit.save()
+
+            except Produit.DoesNotExist:
+                # Si le produit n'existe pas, enregistrez le nouveau produit
+                form.save()
+
             return redirect('produit')
 
     context = {'form': form}
-    return render(request, 'produit/ajouter_produit.html',context)
+    return render(request, 'produit/ajouter_produit.html', context)
 
 
 @login_required

@@ -18,11 +18,11 @@ class ClientForm(ModelForm):
 class VenteForm(ModelForm):
     class Meta:
         model = Vente
-        fields = ['date_vente', 'id_produit', 'quantite', 'prix_unitaire', 'id_client']
+        fields = ['date_vente', 'id_produit', 'quantite',  'id_client']
         widgets = {
             'date_vente': forms.DateTimeInput(format='%Y-%m-%d %H:%M:%S', attrs={'class': 'form-control'}),
             'quantite': forms.NumberInput(attrs={'class': 'form-control'}),
-            'prix_unitaire': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'prix_unitaire': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     # Modifier les champs pour afficher le nom du produit et du client

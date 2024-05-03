@@ -33,3 +33,21 @@ class Vente(models.Model):
         managed = False
         db_table = 'vente'
 
+    # Méthode save pour mettre à jour le prix unitaire
+    def save(self, *args, **kwargs):
+        # Si un produit est sélectionné
+        if self.id_produit:
+            # Obtenez le prix du produit sélectionné
+            produit = self.id_produit
+            # Mettez à jour le champ prix_unitaire avec le prix du produit
+            self.prix_unitaire = produit.prix
+
+        # Appelez la méthode save de la classe parente
+        super().save(*args, **kwargs)
+
+
+
+    # Méthode pour calculer le montant total de la vente
+    @property
+    def montant_total(self):
+        return self.prix_unitaire * self.quantite
