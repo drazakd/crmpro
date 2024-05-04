@@ -183,7 +183,7 @@ CREATE TABLE produit (
     stock INT NOT NULL,
     id_fournisseur INT NULL,
     id_categorie INT NULL,
-    FOREIGN KEY (id_fournisseur) REFERENCES fournisseur(id_fournisseur),
+--     FOREIGN KEY (id_fournisseur) REFERENCES fournisseur(id_fournisseur),
     FOREIGN KEY (id_categorie) REFERENCES categorie(id_categorie)
 );
 

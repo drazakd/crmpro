@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Produit, Categorie
 from .forms import ProduitForm, CategorieForm
+from produit.filters import ProduitFilter
 
 def user_in_groups(user):
     """Vérifie si l'utilisateur appartient aux groupes 'gestionnaire' ou 'admin'."""
@@ -30,6 +31,8 @@ def produit(request):
     # Obtenir toutes les catégories
     categories = Categorie.objects.all()
 
+    myFilter = ProduitFilter()
+
     # Configurer la pagination pour les produits et les catégories
     produit_paginator = Paginator(produits, 10)  # Limiter à 10 produits par page
     categorie_paginator = Paginator(categories, 10)  # Limiter à 10 catégories par page
@@ -48,6 +51,7 @@ def produit(request):
         'categorie_page': categorie_page,
         'sort_by': sort_by,
         'order': order,
+        'myFilter': myFilter,
     }
 
     return render(request, 'produit/produit.html', context)

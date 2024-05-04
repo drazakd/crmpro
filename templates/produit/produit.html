@@ -80,7 +80,7 @@
                                         <th>Nom</th>
                                         <th>Prix</th>
                                         <th>Stock</th>
-                                        <th>Fournisseur</th>
+<!--                                        <th>Fournisseur</th>-->
                                         <th>Catégorie</th>
                                         <th class="align-middle text-center">Action</th>
                                     </tr>
@@ -92,7 +92,7 @@
                                         <td>{{ produit.nom }}</td>
                                         <td>{{ produit.prix }}</td>
                                         <td>{{ produit.stock }}</td>
-                                        <td>{{ produit.id_fournisseur }}</td>
+<!--                                        <td>{{ produit.id_fournisseur }}</td>-->
                                         <td>{{ produit.id_categorie.nom_categorie }}</td>
                                         <td class="align-middle text-center">
                                             <a class="btn btn-sm btn-success" href="{% url 'modifier_produit' produit.id_produit %}">Modifier</a>
