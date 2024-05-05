@@ -1,0 +1,1 @@
+web: gunicorn crmpro.wsgi --log-file -
