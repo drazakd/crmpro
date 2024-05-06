@@ -50,7 +50,7 @@
 
                   {% endif %}
 
-                  <form role="form" action="{% url 'adminreg' %}" method="post">
+                  <form role="form" action="{% url 'superadmin' %}" method="post">
                     {% csrf_token %}
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="Nom" aria-label="Nom" name="nom" required>
